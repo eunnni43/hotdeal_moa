@@ -1,0 +1,1 @@
+{"name": "핫딜모아", "short_name": "핫딜모아", "start_url": "./index.html", "display": "standalone", "background_color": "#ffffff", "theme_color": "#3182f6", "icons": [{"src": "icon.png", "sizes": "192x192", "type": "image/png"}, {"src": "icon512.png", "sizes": "512x512", "type": "image/png"}]}
