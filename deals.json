@@ -1,22 +1,5 @@
 [
   {
-    "id": "4b8f6a53-9dc8-42da-b7a6-64d92f9e0aa1",
-    "shop": "쿠팡",
-    "name": "쌀",
-    "original": 25000,
-    "price": 250000,
-    "normal": "ㅈ",
-    "qty": 2,
-    "comment": "ㄷ",
-    "category": "식품",
-    "shipping": "ㄷ",
-    "link": "https://www.google.com/search?q=%40dear_itzy&sxsrf=AKL5yDhLu4pbKcH02DF4sxf0uvQ0B0Ll6w%3A1795772581310",
-    "image": "https://www.google.com/search?q=%40dear_itzy&sxsrf=AKL5yDhLu4pbKcH02DF4sxf0uvQ0B0Ll6w%3A1795772581310",
-    "note": "ㄷ",
-    "pinned": false,
-    "ended": false
-  },
-  {
     "id": "1fc85448-61f3-46f7-8248-f5c64131809b",
     "shop": "쿠팡",
     "name": "쌀",
