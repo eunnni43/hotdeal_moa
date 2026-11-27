@@ -1,0 +1,32 @@
+name: 만료 핫딜 자동 정리
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: hotdeal-cleanup
+  cancel-in-progress: false
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: 만료 상품 삭제
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          for attempt in 1 2 3; do
+            git fetch origin "$GITHUB_REF_NAME"
+            git reset --hard "origin/$GITHUB_REF_NAME"
+            node <<'JS'
+          function expiredDeal(d,now=Date.now()){if(d.shop==='__settings')return false;if(d.shop==='이벤트'){if(!/^\d{4}-\d{2}-\d{2}$/.test(d.end||''))return false;const t=Date.parse(d.end+'T00:00:00+09:00');return Number.isFinite(t)&&now>=t+86400000}const t=Date.parse(d.createdAt);return Number.isFinite(t)&&now>=t+43200000}
+          const fs=require('fs');const path='deals.json';const rows=JSON.parse(fs.readFileSync(path,'utf8'));if(!Array.isArray(rows)||rows.some(d=>!d||typeof d!=='object'))throw Error('Invalid deals.json');const now=Date.now();const kept=rows.filter(d=>!expiredDeal(d,now));if(kept.length!==rows.length)fs.writeFileSync(path,JSON.stringify(kept));console.log(`Removed ${rows.length-kept.length} expired deals`);
+          JS
+            if git diff --quiet -- deals.json; then exit 0; fi
+            git add deals.json
+            git commit -m '자동 정리: 만료 핫딜 삭제'
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then exit 0; fi
+          done
+          exit 1
